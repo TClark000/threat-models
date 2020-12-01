@@ -10,10 +10,10 @@
 * [Code Examples](#code-examples)
 * [Status](#status)
 
-## General info
+## General Info
 [OWASP Threat Model Cookbook Project](https://github.com/OWASP/threat-model-cookbook#readme) is collating threat model examples.  
 
-Here I have created threat models for an online payment process.  Flow, sequence and attack tree diagrams cover the initial steps of an online payment process.  These inital steps cover the payment from the customer -> customer client (home pc) -> merchant -> stripe.
+Here I have created threat models for an online payment process.  Flow, sequence and attack tree diagrams cover the initial steps of an online payment process.  These initial steps cover the payment from the customer -> customer client (home pc) -> merchant -> stripe.
 
 The flow diagram are created with the python threat modeling framework [pytm](https://github.com/izar/pytm/) with diagrams generated as [Dot](https://graphviz.gitlab.io/) and [PlantUML](https://plantuml.com/).
 
