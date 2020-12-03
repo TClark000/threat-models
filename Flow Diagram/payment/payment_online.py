@@ -20,6 +20,7 @@ customer_client.inBoundary = Customer_Client_Web
 
 merchant_web = Server("Merchant Web Server")
 merchant_web.inBoundary = Merchant_Web
+merchant_web.OS = "Ubuntu"
 merchant_web.isHardened = True
 merchant_web.onAWS = True
 # web.levels = [2]

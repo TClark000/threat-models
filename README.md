@@ -65,7 +65,17 @@ Shown are the commands to create the threat model for the flow and sequence diag
 The attack tree is created by running the command or run the code on the [online server](http://www.plantuml.com/plantuml):
 
 ```
-  java -jar plantuml.jar ./payment_online.txt
+  java -jar plantuml.jar ./payment_online.plantuml
+```
+
+Describing attributes of Merchant Web Server, payment_online.py, for the Flow Diagram:
+
+```
+  merchant_web = Server("Merchant Web Server")
+  merchant_web.inBoundary = Merchant_Web
+  merchant_web.OS = "Ubuntu"
+  merchant_web.isHardened = True
+  merchant_web.onAWS = True
 ```
 
 ## Status
