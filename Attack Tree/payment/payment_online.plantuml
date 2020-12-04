@@ -70,7 +70,7 @@ subtitle ... goalSteal #fff
 ' goalDisrupt
 agent "Prevent Purchases \nor Subscriptions" as goalPrevent
 agent "Use fraudulent \ncredit card" as goalFraudulentCC
-agent "Take advantage of Misconfiguration \n& vulnerabilities" as goalApp
+agent "Take advantage of Misconfiguration \n& Vulnerabilities" as goalApp
 agent "Target Stripe API" as goalStripeApi
 agent "Compromise and \nor steal employee laptop \nand mobile phone" as goalLaptop
 agent "Create a \nMock website" as goalMock
@@ -86,10 +86,8 @@ goalDisrupt --> goalDomain
 
 note top of goalFraudulentCC #LightGoldenRodYellow: Thwarted by implementing 3D Secure
 
-agent "Hoax Purchases" as goalHoax
 agent "Target Merchant API" as goalMerchantApi
 
-goalPrevent --> goalHoax
 goalPrevent --> goalMerchantApi
 
 agent "Denial of Service" as goalDoS
@@ -109,6 +107,7 @@ goalServers --> goalRemoveStore
 agent "Gain access to Stripes \nMerchant Dashboard" as goalMerchantDashboard
 
 goalLaptop --> goalMerchantDashboard
+goalServers --> goalMerchantDashboard
 
 agent "Reset Administrative Access" as goalMerchantAccess
 agent "Revoke or steal keys \nused in PaymentIntent" as goalMerchantKeys
@@ -134,21 +133,31 @@ goalSteal --> goalCustClient
 goalSteal --> goalStripe
 
 agent "Target known \nCustomers of Merchant" as goalSocial
-agent "Target Stripe for \nadministrative rights" as goalStripeAdmin
+agent "Social Engineering \nsuch as phishing" as goalSocialEng
+agent "Take advantage of \nMisconfiguration \n& Vulnerabilities" as goalStripeMisConfig
 
 goalCustLogin  --> goalSocial
 goalCustClient --> goalSocial
-goalStripe --> goalStripeAdmin
+goalStripe --> goalSocialEng
+goalStripe --> goalStripeMisConfig
 
 agent "Lateral movement \nwithin organization" as goalLateral
+agent "Target Stripe for \nAdministrative rights" as goalStripeAdmin
 
+goalSocialEng --> goalStripeAdmin
 goalStripeAdmin --> goalLateral
+goalStripeMisConfig --> goalStripeAdmin
+goalStripeMisConfig --> goalLateral
+
+agent "Steal Customer Data" as goalData
+
+goalLateral --> goalData
 
 goalMock  --> goalSocial
 goalStripeApi --> goalDoS
 
 agent "Social Engineering \nphishing" as goalPhishing
-agent "Session hijacking" as goalSessionHijacking
+agent "Session Hijacking" as goalSessionHijacking
 
 goalSocial --> goalPhishing
 goalSocial --> goalSessionHijacking
