@@ -66,6 +66,7 @@ The attack tree is created by running the command or run the code on the [online
 
 ```
   java -jar plantuml.jar ./payment_online.plantuml
+  java -jar plantuml.jar ./payment_online.plantuml -tsvg
 ```
 
 Describing attributes of Merchant Web Server, payment_online.py, for the Flow Diagram:

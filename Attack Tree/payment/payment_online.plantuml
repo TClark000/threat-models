@@ -40,7 +40,9 @@ end title
 'text
 'endlegend
 
-footer
+left footer
+[[https://github.com/TClark000/threat-models/blob/base/Flow%20Diagram/payment/img/payment_online_advanced.html{Report} Flow Diagram Report with Vulnerabilities]]
+github.com/tclark000/threat-models/blob/base/Flow Diagram/payment/img/payment_online_advanced.html
 
 end footer
 
@@ -72,86 +74,100 @@ agent "Prevent Purchases \nor Subscriptions" as goalPrevent
 agent "Use fraudulent \ncredit card" as goalFraudulentCC
 agent "Take advantage of Misconfiguration \n& Vulnerabilities" as goalApp
 agent "Target Stripe API" as goalStripeApi
-agent "Compromise and \nor steal employee laptop \nand mobile phone" as goalLaptop
-agent "Create a \nMock website" as goalMock
-agent "Domain Hijacking" as goalDomain
+agent "Site Displays \nDifferent Content" as goalSite
+agent "Site no Longer Responds" as goalSite2
+agent "Steal customers" as goalStealCust
+agent "Create Fake Payments \nwith Stolen Cards" as goalFakePayments
+agent "Issue Fake Refunds \nand Cancel Orders" as goalRefund
 
+goalDisrupt --> goalFakePayments
+goalDisrupt--> goalRefund
 goalDisrupt --> goalPrevent
 goalDisrupt --> goalFraudulentCC
 goalDisrupt --> goalApp
 goalDisrupt --> goalStripeApi
-goalDisrupt --> goalLaptop
-goalDisrupt --> goalMock
-goalDisrupt --> goalDomain
+goalDisrupt --> goalStealCust
+goalDisrupt --> goalSite
+goalDisrupt --> goalSite2
 
 note top of goalFraudulentCC #LightGoldenRodYellow: Thwarted by implementing 3D Secure
 
 agent "Target Merchant API" as goalMerchantApi
+agent "Create a \nMock website" as goalMock
 
 goalPrevent --> goalMerchantApi
+goalStealCust --> goalMock
 
 agent "Denial of Service" as goalDoS
 
 goalMerchantApi --> goalDoS
 
-agent "Compromise Merchant servers" as goalServers
-
-goalApp --> goalServers
-
 agent "Tamper with Application \ncausing outage" as goalCrash
-agent "App removed from \nthe App Store" as goalRemoveStore
+agent "Compromise Merchant \nWeb Servers" as goalServers
 
-goalServers --> goalCrash
-goalServers --> goalRemoveStore
+goalApp --> goalCrash
+goalCrash --> goalServers
+
+agent "Command Line Execution \nthrough SQL Injection" as goalCLE
+agent "Path Traversal" as goalPathTraversal
+agent "Session Hijacking \n- ServerSide" as goalSessionServerSide
+agent "Using Malicious Files" as goalMaliciousFiles
+agent "XSS Targeting \nNon-Script Elements" as goalXSS
+
+goalServers --> goalCLE
+goalServers --> goalPathTraversal 
+goalServers --> goalSessionServerSide
+goalServers --> goalMaliciousFiles
+goalServers --> goalXSS
 
 agent "Gain access to Stripes \nMerchant Dashboard" as goalMerchantDashboard
+agent "Compromise and \nor steal employee laptop \nand mobile phone" as goalLaptop
+goalFakePayments--> goalMerchantDashboard
+goalRefund --> goalMerchantDashboard
+goalMerchantDashboard  --> goalLaptop
 
-goalLaptop --> goalMerchantDashboard
-goalServers --> goalMerchantDashboard
+agent "Domain Hijacking" as goalDomain
+agent "Denial of Service Attack" as goalDoS2
 
-agent "Reset Administrative Access" as goalMerchantAccess
-agent "Revoke or steal keys \nused in PaymentIntent" as goalMerchantKeys
-agent "Issue refunds, \ncancel Subscriptions" as goalRefund
-agent "Create or Delete \nCustomers" as goalDeleteUsers
-
-goalMerchantDashboard --> goalMerchantAccess
-goalMerchantDashboard --> goalMerchantKeys
-goalMerchantDashboard --> goalRefund
-goalMerchantDashboard --> goalDeleteUsers
-
-agent "Site no longer \nresponds or displays \ndifferent content" as goalSite
-
-goalDomain --> goalSite
+goalSite --> goalDomain
+goalSite2 --> goalDomain
+goalSite2 --> goalDoS2
 
 ' goalSteal
 agent "Target Customer Details \nstored by Merchant (db)" as goalCustLogin
 agent "Target Customer Client \n(home pc)" as goalCustClient
 agent "Target Stripe" as goalStripe
+agent "Customer uses Public WiFi \nto make a Payment" as goalPublicWiFi
 
 goalSteal --> goalCustLogin
 goalSteal --> goalCustClient
 goalSteal --> goalStripe
+goalSteal --> goalPublicWiFi
 
 agent "Target known \nCustomers of Merchant" as goalSocial
 agent "Social Engineering \nsuch as phishing" as goalSocialEng
 agent "Take advantage of \nMisconfiguration \n& Vulnerabilities" as goalStripeMisConfig
+agent "Insecure Wireless \nProtocols (WEP)" as goalMitM
 
 goalCustLogin  --> goalSocial
 goalCustClient --> goalSocial
 goalStripe --> goalSocialEng
 goalStripe --> goalStripeMisConfig
+goalPublicWiFi --> goalMitM
 
-agent "Lateral movement \nwithin organization" as goalLateral
+agent "Lateral movement \nwithin Organization" as goalLateral
 agent "Target Stripe for \nAdministrative rights" as goalStripeAdmin
+agent "Man in the Middle Attack\n(MiTM)" as goalManInMiddle
 
 goalSocialEng --> goalStripeAdmin
 goalStripeAdmin --> goalLateral
 goalStripeMisConfig --> goalStripeAdmin
 goalStripeMisConfig --> goalLateral
+goalMitM --> goalManInMiddle
 
-agent "Steal Customer Data" as goalData
+agent "Inject false Info & \nIntercept Data transfer" as goalDataWiFi
 
-goalLateral --> goalData
+goalManInMiddle --> goalDataWiFi
 
 goalMock  --> goalSocial
 goalStripeApi --> goalDoS
@@ -161,5 +177,11 @@ agent "Session Hijacking" as goalSessionHijacking
 
 goalSocial --> goalPhishing
 goalSocial --> goalSessionHijacking
+
+agent "Steal Customer Data" as goalData
+agent "Transfer Money to \nWrong Account" as goalBankAccount
+
+goalLateral --> goalData
+goalDataWiFi --> goalBankAccount
 
 @enduml
